@@ -13,6 +13,9 @@ import { loginUser, registerUser } from "../../api/api";
 import { toast } from "react-toastify";
 import { UserContext } from "../Context/UserContext";
 
+export const commonInputClassName =
+  "outline-none roboto-regular mt-3 bg-slate-100 border-2 border-cyan-50 rounded-[10px] w-full px-3 py-4 text-black placeholder:text-custom-grey";
+
 const loginSchema = yup
   .object({
     email: yup.string().required(),

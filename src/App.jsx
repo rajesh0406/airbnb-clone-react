@@ -22,6 +22,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Hosting from "./components/Page/Hosting";
 import Earnings from "./components/Page/Earnings";
 import Reservations from "./components/Page/Reservations";
+import ListingPage from "./components/Page/ListingsPage";
 
 function App() {
   console.log("env", import.meta.env);
@@ -40,13 +41,12 @@ function App() {
                 <Route path="/account/places/new" element={<PlacesForm />} />
                 <Route path="/account/places/:id" element={<PlacesForm />} /> */}
                 <Route path="/place/:id" element={<PlacePage />} />
+                <Route path="/hosting/listing/:id" element={<PlacePage />} />
                 <Route path="/my-trips" element={<Trips />} />
-                <Route path="/hosting" element={<Hosting />} />
+                <Route path="/hosting" element={<Reservations />} />
                 <Route path="/hosting/earnings" element={<Earnings />} />
-                <Route
-                  path="/hosting/reservations"
-                  element={<Reservations />}
-                />
+                <Route path="/hosting/my-listings" element={<ListingPage />} />
+
                 {/* <Route path="/account/bookings" element={<BookingsPage />} /> */}
                 {/* <Route
                   path="/account/bookings/:id"

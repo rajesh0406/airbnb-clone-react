@@ -12,8 +12,8 @@ const Filter = ({ tags, handleSelect, selected }) => {
       {tags.map((tag, idx) => (
         <button
           className={cn(
-            "flex flex-col gap-[6px] justify-center items-center py-3 border-b hover:border-b-black text-custom-grey hover:text-black",
-            selected === tag?.name && "border-b-black"
+            "flex flex-col gap-[6px] justify-center items-center py-3 box-border  text-custom-grey hover:text-black",
+            selected === tag?.name && "border-b border-b-black"
           )}
           key={idx}
           onClick={() => {
@@ -47,7 +47,9 @@ const Home = () => {
     } catch (err) {
       console.log(err);
     } finally {
-      setLoader(false);
+      setTimeout(() => {
+        setLoader(false);
+      }, 1000);
     }
   };
 

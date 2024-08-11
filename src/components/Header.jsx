@@ -29,6 +29,11 @@ const options = {
     hosting: {
       pre: [
         {
+          id: "reservations",
+          text: "Reservations",
+          url: "/hosting",
+        },
+        {
           id: "earnings",
           text: "Earnings",
           url: "/hosting/earnings",
@@ -36,7 +41,7 @@ const options = {
         {
           id: "listings",
           text: "Listings",
-          url: "/hosting/listings",
+          url: "/hosting/my-listings",
         },
       ],
       post: [
@@ -118,7 +123,7 @@ const bottomNavOptions = {
       id: "reservations",
       text: "Reservations",
       icon: LoyaltyIcon,
-      url: "/hosting/reservations",
+      url: "/hosting",
     },
     {
       id: "earnings",
@@ -130,7 +135,7 @@ const bottomNavOptions = {
       id: "listings",
       text: "Listings",
       icon: HouseSidingTwoToneIcon,
-      url: "/hosting/listings",
+      url: "/hosting/my-listings",
     },
     {
       id: "profile",

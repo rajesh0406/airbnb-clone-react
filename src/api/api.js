@@ -112,7 +112,7 @@ export const addNewPlace = async (data) => {
       data
     );
 
-    if (response.status === 201) {
+    if (response.status === 201 || response.status === 200) {
       const resData = await response.data;
       return resData;
     } else {
@@ -369,6 +369,27 @@ export const getReservation = async () => {
   try {
     const response = await axios.get(
       `${import.meta.env.VITE_BACKEND_ENDPOINT}/api/book/reservations`,
+      { headers: headers }
+    );
+
+    if (response.status === 200) {
+      const resData = await response.data;
+      return resData;
+    } else {
+      throw new Error("Unexpected Error Occurred!");
+    }
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
+
+export const getListingsOfOwner = async () => {
+  try {
+    const response = await axios.get(
+      `${
+        import.meta.env.VITE_BACKEND_ENDPOINT
+      }/api/listing/all-listings-of-user`,
       { headers: headers }
     );
 

@@ -5,6 +5,7 @@ import { ReviewModal } from "../Modal";
 import { cn } from "../../helper";
 import { AllReviewsModal } from "../Modal/All-Review-Modal";
 import AuthModal from "../Modal/Auth-Modal";
+import AddListingModal from "../Modal/Add-Listing-Modal";
 
 export const ModalContext = createContext({
   onOpen: () => {},
@@ -44,6 +45,8 @@ export const ModalProvider = ({ children }) => {
         return <AllReviewsModal />;
       case "auth":
         return <AuthModal />;
+      case "add-new-listing":
+        return <AddListingModal />;
       default:
         return <></>;
     }

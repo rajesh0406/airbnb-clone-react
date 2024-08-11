@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import {
   getListingById,
   getPlacesById,
@@ -14,6 +14,7 @@ import CheckCircleTwoToneIcon from "@mui/icons-material/CheckCircleTwoTone";
 import StarOutlinedIcon from "@mui/icons-material/StarOutlined";
 import { ModalContext } from "../Context/ModalContext";
 import { UserContext } from "../Context/UserContext";
+import { cn } from "../../helper";
 
 export const ReviewCard = ({ review }) => {
   return (
@@ -79,6 +80,8 @@ const PhotoGrid = ({ images }) => {
 
 const PlacePage = () => {
   const { id } = useParams();
+  const { pathname } = useLocation();
+
   const [place, setPlace] = useState(null);
   const [reviews, setReviews] = useState([]);
   const [booking, setBooking] = useState(null);
@@ -86,8 +89,10 @@ const PlacePage = () => {
   const { onOpen, updateModalData } = useContext(ModalContext);
   const { user } = useContext(UserContext);
 
+  const fromHosting = pathname.includes("hosting");
+
   const hasActiveBooking = useMemo(() => {
-    console.log("booking", booking);
+    // console.log("booking", booking);
     let temp = booking?.[0]?.checkOut;
     if (temp) {
       temp = dayjs(temp);
@@ -209,8 +214,12 @@ const PlacePage = () => {
           )}
         </div>
 
-        <div>
-          <BookingWidget place={place} hasActiveBooking={hasActiveBooking} />
+        <div className={cn(fromHosting && "opacity-40")}>
+          <BookingWidget
+            place={place}
+            hasActiveBooking={hasActiveBooking}
+            disableClick={fromHosting}
+          />
         </div>
       </div>
       {reviews.length !== 0 && (
@@ -225,20 +234,32 @@ const PlacePage = () => {
           </div>
         </div>
       )}
+
       <div className="flex items-center justify-start w-full mb-8 gap-3">
-        <button
-          className="py-3 px-5 border-2 rounded-[12px] text-center border-black bg-black text-white"
-          onClick={() => {
-            updateModalData({ listing: id, refetch: () => getReviews(id) });
-            onOpen("add-review");
-          }}
-        >
-          Add Review
-        </button>
+        {!fromHosting && (
+          <button
+            className="py-3 px-5 border-2 rounded-[12px] text-center border-black bg-black text-white"
+            onClick={() => {
+              if (!user) {
+                onOpen("auth");
+                return;
+              }
+              updateModalData({ listing: id, refetch: () => getReviews(id) });
+              onOpen("add-review");
+            }}
+          >
+            Add Review
+          </button>
+        )}
+
         {reviews?.length > 4 && (
           <button
             className="py-3 px-5 border-2 rounded-[12px] text-center font-semibold border-black  text-black"
             onClick={() => {
+              if (!user) {
+                onOpen("auth");
+                return;
+              }
               updateModalData({ reviews });
               onOpen("all-reviews");
             }}

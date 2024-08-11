@@ -12,7 +12,7 @@ const Earnings = () => {
   const getEarnings = async () => {
     try {
       const data = await getReservation();
-      console.log("earnings", data);
+      // console.log("earnings", data);
       setEarnings(
         (data?.data?.reservations || [])?.reduce((acc, curr, idx) => {
           return acc + curr?.totalPrice;
@@ -21,7 +21,9 @@ const Earnings = () => {
     } catch (err) {
       console.log(err);
     } finally {
-      setLoader(false);
+      setTimeout(() => {
+        setLoader(false);
+      }, 1000);
     }
   };
 

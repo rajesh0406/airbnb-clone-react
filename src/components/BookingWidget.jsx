@@ -10,8 +10,16 @@ import { IconButton } from "@mui/material";
 import ControlPointOutlinedIcon from "@mui/icons-material/ControlPointOutlined";
 import RemoveCircleOutlineOutlinedIcon from "@mui/icons-material/RemoveCircleOutlineOutlined";
 import { toast } from "react-toastify";
+import { ModalContext } from "./Context/ModalContext";
 
-const GuestCounter = ({ text, subtext, current, handleAdd, handleRemove }) => {
+const GuestCounter = ({
+  text,
+  subtext,
+  current,
+  handleAdd,
+  handleRemove,
+  disableClick,
+}) => {
   return (
     <div className="flex gap-5 justify-between items-center mt-4">
       <div className="flex flex-col  text-left">
@@ -19,13 +27,21 @@ const GuestCounter = ({ text, subtext, current, handleAdd, handleRemove }) => {
         <p className="roboto-regular text-[16px] text-black">{subtext}</p>
       </div>
       <div className="flex items-center gap-3">
-        <IconButton onClick={handleRemove} className="text-custom-grey">
+        <IconButton
+          onClick={handleRemove}
+          className="text-custom-grey"
+          disabled={disableClick}
+        >
           <RemoveCircleOutlineOutlinedIcon
             style={{ width: "32px", height: "32px" }}
           />
         </IconButton>
         <span className="roboto-medium text-black text-base">{current}</span>
-        <IconButton onClick={handleAdd} className="text-custom-grey">
+        <IconButton
+          onClick={handleAdd}
+          className="text-custom-grey"
+          disabled={disableClick}
+        >
           <ControlPointOutlinedIcon style={{ width: "32px", height: "32px" }} />
         </IconButton>
       </div>
@@ -33,8 +49,8 @@ const GuestCounter = ({ text, subtext, current, handleAdd, handleRemove }) => {
   );
 };
 
-const BookingWidget = ({ place, hasActiveBooking }) => {
-  console.log("listing", place);
+const BookingWidget = ({ place, hasActiveBooking, disableClick }) => {
+  // console.log("listing", place);
   const min = dayjs(place?.availableDates?.[0]?.startDate)
     .add(1, "day")
     .format("YYYY-MM-DD");
@@ -52,6 +68,7 @@ const BookingWidget = ({ place, hasActiveBooking }) => {
   const [noOfChildren, setNoOfChildren] = useState(0);
 
   const { user } = useContext(UserContext);
+  const { onOpen } = useContext(ModalContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -73,6 +90,11 @@ const BookingWidget = ({ place, hasActiveBooking }) => {
     // const date2 = dayjs(checkOut).valueOf();
     // console.log("check", date1, date2);
     // return;
+
+    if (!user) {
+      onOpen("auth");
+      return;
+    }
 
     const data = {
       listing: place._id,
@@ -145,6 +167,14 @@ const BookingWidget = ({ place, hasActiveBooking }) => {
                 value={checkIn}
                 min={min}
                 max={max}
+                disabled={disableClick}
+                onClick={(e) => {
+                  if (!user) {
+                    e.preventDefault();
+                    onOpen("auth");
+                    return;
+                  }
+                }}
                 onChange={(e) => {
                   console.log("check-in", e.target.value);
                   setCheckIn(e.target.value);
@@ -160,7 +190,15 @@ const BookingWidget = ({ place, hasActiveBooking }) => {
                 className="cursor-pointer outline-none"
                 value={checkOut}
                 min={min}
+                disabled={disableClick}
                 max={max}
+                onClick={(e) => {
+                  if (!user) {
+                    e.preventDefault();
+                    onOpen("auth");
+                    return;
+                  }
+                }}
                 onChange={(e) => setCheckOut(e.target.value)}
               />
             </div>
@@ -169,22 +207,40 @@ const BookingWidget = ({ place, hasActiveBooking }) => {
             <GuestCounter
               text="Adult"
               subtext="Age 13+"
+              disableClick={disableClick}
               current={noOfAdult}
               handleAdd={() => {
+                if (!user) {
+                  onOpen("auth");
+                  return;
+                }
                 handleAdd("adult");
               }}
               handleRemove={() => {
+                if (!user) {
+                  onOpen("auth");
+                  return;
+                }
                 handleRemove("adult");
               }}
             />
             <GuestCounter
               text="Children"
               subtext="Age Below 13"
+              disableClick={disableClick}
               current={noOfChildren}
               handleAdd={() => {
+                if (!user) {
+                  onOpen("auth");
+                  return;
+                }
                 handleAdd("children");
               }}
               handleRemove={() => {
+                if (!user) {
+                  onOpen("auth");
+                  return;
+                }
                 handleRemove("children");
               }}
             />
@@ -192,7 +248,7 @@ const BookingWidget = ({ place, hasActiveBooking }) => {
         </div>
         <button
           onClick={bookThisPlace}
-          disabled={hasActiveBooking}
+          disabled={hasActiveBooking || disableClick}
           className="primary mt-4 bg-primary rounded-[8px] w-full roboto-medium text-white px-10 py-3 disabled:opacity-70"
         >
           {hasActiveBooking ? "Already Booked!" : "Reserve"}

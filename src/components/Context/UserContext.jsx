@@ -2,6 +2,7 @@ import { createContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { getLoginUserDetails } from "../../api/api";
 import { removeCookie } from "../../helper";
+import { useNavigate } from "react-router-dom";
 
 export const UserContext = createContext({
   user: {},
@@ -14,9 +15,12 @@ export const UserContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [ready, setReady] = useState(false);
 
+  const navigate = useNavigate();
+
   const handleLogout = () => {
     setUser(null);
     removeCookie("token");
+    navigate("/");
   };
 
   useEffect(() => {
