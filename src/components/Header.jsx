@@ -44,13 +44,13 @@ const options = {
           url: "/hosting/my-listings",
         },
       ],
-      post: [
-        {
-          id: "accounts",
-          text: "My account",
-          url: "/profile",
-        },
-      ],
+      // post: [
+      //   {
+      //     id: "accounts",
+      //     text: "My account",
+      //     url: "/profile",
+      //   },
+      // ],
     },
     default: {
       pre: [
@@ -70,13 +70,13 @@ const options = {
         //   url: "/my-wishlists",
         // },
       ],
-      post: [
-        {
-          id: "accounts",
-          text: "My account",
-          url: "/profile",
-        },
-      ],
+      // post: [
+      //   {
+      //     id: "accounts",
+      //     text: "My account",
+      //     url: "/profile",
+      //   },
+      // ],
     },
   },
   "not-logged-in": {
@@ -264,9 +264,7 @@ const Header = () => {
               {option.text}
             </MenuItem>
           ))}
-          {options[!!user ? "logged-in" : "not-logged-in"][
-            isHosting ? "hosting" : "default"
-          ]["post"]?.length > 0 && <Divider />}
+          <Divider />
 
           {options[!!user ? "logged-in" : "not-logged-in"][
             isHosting ? "hosting" : "default"
@@ -317,8 +315,14 @@ const Header = () => {
           <Fragment>
             {bottomNavOptions[isHosting ? "hosting" : "default"].map(
               ({ icon: Icon, id, text, url }, idx) => (
-                <Link
-                  to={url}
+                <div
+                  onClick={() => {
+                    if (id === "profile") {
+                      onOpen("logout");
+                    } else {
+                      navigate(url);
+                    }
+                  }}
                   key={idx}
                   className={cn(
                     "flex flex-col gap-1 items-center justify-center cursor-pointer text-custom-grey",
@@ -329,7 +333,7 @@ const Header = () => {
                   <span className="text-inherit text-[0.625rem] leading-[0.75rem]">
                     {text}
                   </span>
-                </Link>
+                </div>
               )
             )}
           </Fragment>

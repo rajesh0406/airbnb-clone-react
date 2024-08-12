@@ -404,3 +404,60 @@ export const getListingsOfOwner = async () => {
     throw err;
   }
 };
+
+export const addListing = async (data) => {
+  try {
+    const response = await axios.post(
+      `${import.meta.env.VITE_BACKEND_ENDPOINT}/api/listing/create-listing`,
+      data
+    );
+
+    if (response.status === 200 || response.status === 201) {
+      const resData = await response.data;
+      return resData;
+    } else {
+      throw new Error("Unexpected Error Occurred!");
+    }
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
+
+export const deleteProperty = async (data) => {
+  try {
+    const response = await axios.post(
+      `${import.meta.env.VITE_BACKEND_ENDPOINT}/api/place/delete-place`,
+      data
+    );
+
+    if (response.status === 200 || response.status === 201) {
+      const resData = await response.data;
+      return resData;
+    } else {
+      throw new Error("Unexpected Error Occurred!");
+    }
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
+
+export const deleteListing = async (data) => {
+  try {
+    const response = await axios.post(
+      `${import.meta.env.VITE_BACKEND_ENDPOINT}/api/listing/delete-listing`,
+      data
+    );
+
+    if (response.status === 200 || response.status === 201) {
+      const resData = await response.data;
+      return resData;
+    } else {
+      throw new Error("Unexpected Error Occurred!");
+    }
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};

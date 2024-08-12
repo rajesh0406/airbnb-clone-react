@@ -48,6 +48,12 @@ const Earnings = () => {
               <span className="text-primary roboto-medium">₹{earnings}</span> so
               far!
             </p>
+            <button
+              onClick={() => navigate("/hosting/my-listings")}
+              className="py-3 mt-3 px-8 flex items-center justify-center roboto-medium  rounded-[10px] text-center border-black border-[1.5px] text-black"
+            >
+              Go to Listings
+            </button>
           </div>
         </Fragment>
       )}
