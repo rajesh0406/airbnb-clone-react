@@ -1,16 +1,16 @@
 import axios from "axios";
 
-axios.defaults.withCredentials = true;
-
-const headers = new Headers({});
-headers.append("Content-Type", "application/json");
-
+const config = {
+  headers: {
+    "Content-Type": "application/json",
+  },
+  withCredentials: true,
+};
 //***************** REGISTER USER *************/
 export const registerUser = async (data) => {
   try {
     const response = await axios.post(
       `${import.meta.env.VITE_BACKEND_ENDPOINT}/api/user/register`,
-
       data
     );
     if (response.status === 200 || response.status === 201) {
@@ -51,7 +51,7 @@ export const getLoginUserDetails = async () => {
   try {
     const response = await axios.get(
       `${import.meta.env.VITE_BACKEND_ENDPOINT}/api/user/profile`,
-      { headers: headers }
+      config
     );
 
     const resData = await response.data;
@@ -189,9 +189,7 @@ export const getAllAddedPlaces = async () => {
   try {
     const response = await axios.get(
       `${import.meta.env.VITE_BACKEND_ENDPOINT}/api/place/all-added-places`,
-      {
-        headers: headers,
-      }
+      config
     );
 
     if (response.status === 200) {
@@ -213,9 +211,7 @@ export const getAllListedPlaces = async (search, tags) => {
       `${
         import.meta.env.VITE_BACKEND_ENDPOINT
       }/api/listing/all-listings?search=${search}&tags=${tags}`,
-      {
-        headers: headers,
-      }
+      config
     );
 
     if (response.status === 200) {
@@ -255,7 +251,7 @@ export const getAllBookingOfUser = async () => {
   try {
     const response = await axios.get(
       `${import.meta.env.VITE_BACKEND_ENDPOINT}/api/book/getBookings`,
-      { headers: headers }
+      config
     );
     if (response.status === 200) {
       const resData = await response.data;
@@ -294,7 +290,7 @@ export const getListingById = async (id) => {
       `${
         import.meta.env.VITE_BACKEND_ENDPOINT
       }/api/listing/listing-of-id/${id}`,
-      { headers: headers }
+      config
     );
 
     if (response.status === 200) {
@@ -313,7 +309,7 @@ export const getReviewsOfListing = async (id) => {
   try {
     const response = await axios.get(
       `${import.meta.env.VITE_BACKEND_ENDPOINT}/api/review/reviews/${id}`,
-      { headers: headers }
+      config
     );
 
     if (response.status === 200) {
@@ -353,7 +349,7 @@ export const getUserBookingOnListing = async (id) => {
       `${
         import.meta.env.VITE_BACKEND_ENDPOINT
       }/api/book/getBookingOnListing/${id}`,
-      { headers: headers }
+      config
     );
 
     if (response.status === 200) {
@@ -372,7 +368,7 @@ export const getReservation = async () => {
   try {
     const response = await axios.get(
       `${import.meta.env.VITE_BACKEND_ENDPOINT}/api/book/reservations`,
-      { headers: headers }
+      config
     );
 
     if (response.status === 200) {
@@ -393,7 +389,7 @@ export const getListingsOfOwner = async () => {
       `${
         import.meta.env.VITE_BACKEND_ENDPOINT
       }/api/listing/all-listings-of-user`,
-      { headers: headers }
+      config
     );
 
     if (response.status === 200) {
