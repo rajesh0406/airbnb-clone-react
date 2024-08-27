@@ -1,5 +1,7 @@
 import axios from "axios";
 
+axios.defaults.withCredentials = true;
+
 const headers = new Headers({});
 headers.append("Content-Type", "application/json");
 
@@ -8,6 +10,7 @@ export const registerUser = async (data) => {
   try {
     const response = await axios.post(
       `${import.meta.env.VITE_BACKEND_ENDPOINT}/api/user/register`,
+
       data
     );
     if (response.status === 200 || response.status === 201) {
