@@ -8,7 +8,7 @@ import { ModalContext } from "../Context/ModalContext";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { cn } from "../../helper";
+import { cn, setCookie } from "../../helper";
 import { loginUser, registerUser } from "../../api/api";
 import { toast } from "react-toastify";
 import { UserContext } from "../Context/UserContext";
@@ -47,6 +47,7 @@ const RegisterForm = ({ toggleLayout, onClose }) => {
       const response = await registerUser(data);
       if (response?.user) {
         setUser(response?.user);
+        setCookie("token", response?.token);
       }
       onClose();
     } catch (err) {
@@ -145,6 +146,7 @@ const LoginForm = ({ toggleLayout, onClose }) => {
       console.log("response", response);
       if (response?.registeredUser) {
         setUser(response?.registeredUser);
+        setCookie("token", response?.token);
       }
       onClose();
     } catch (err) {
